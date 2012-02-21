@@ -1,0 +1,3 @@
+ - #ifndef #define #endif structure is used, so that we can redefine the parameters from the command line (compiler arguments)
+ - be careful about the orders of parameters for gcc:
+   "gcc test-lib-main.c -o test -lmy -L." vs "gcc  -lmy -L. -o test test-lib-main.c"
