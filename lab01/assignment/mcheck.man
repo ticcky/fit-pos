@@ -1,4 +1,4 @@
-.TH man 1 "21 February 2012" "GNU" "Linux man page"
+.TH man 3 "21 February 2012" "GNU" "Linux man page"
 .SH NAME
 mcheck - setup hooks to check for illegal memory writes
 .SH SYNOPSIS
