@@ -1,13 +1,18 @@
 .TH man 3 "21 February 2012" "GNU" "Linux man page"
 .SH NAME
-mcheck - setup hooks to check for illegal memory writes
+mcheck, mcheck_pedantic - setup hooks to check for illegal memory writes
 .SH SYNOPSIS
 #include <mcheck.h>
+
 int mcheck (void (*abortfunc) (enum mcheck_status));
+
+int mcheck_pedantic(void (*abortfunc) (enum mcheck_status));
 .SH DESCRIPTION
 The mcheck() function hooks the free(3), realloc(3), malloc(3), memalign(3) functions, in the way that they check whether no one has written outside of the allocated memory block.
 
 The mcheck() function has to be called before the first malloc(3) call to ensure consistency. If it is called after the first malloc(3) it has no effect and returns -1. If hook has been successfull, it returns 0.
+
+The mcheck_pedantic() is the stronger version of mcheck(). It reinforces the checks that are made, by forcing all active malloc(3)-ed blocks to be checked (e.g. when a block of memory is free(3)-ed, not only this memory is checked to be consistent, but also all other active malloc(3)-ed blocks).
 
 The abortfunc argument specifies a function to be called when one of the aforementioned functions discovers an illegal write. The abortfunc() accepts one argument which is enum mcheck_status and gives details about the detected problem.  E.g. this function can be used to print an error message and call the abort(3) function.
 
@@ -25,8 +30,6 @@ enum mcheck_status
 
 -1 when the hook failed (i.e. the mcheck(3) has been issued after a first malloc(3) call)
 .SH SEE ALSO
-malloc (3), realloc (3)
-.SH BUGS
-No known bugs.
+mprobe(3), malloc(3), realloc(3)
 .SH AUTHOR
 Lukas Zilka (lukas@zilka.me)

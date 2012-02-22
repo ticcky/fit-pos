@@ -1,0 +1,14 @@
+.TH man 3 "21 February 2012" "GNU" "Linux man page"
+.SH NAME
+mcheck_check_all - validates the consistency of all the active blocks, if mcheck(3) is active
+.SH SYNOPSIS
+#include <mcheck.h>
+void mcheck_check_all(void);
+.SH DESCRIPTION
+Walks through all the active blocks and tests whether they are consistent (i.e. there have not been writes past the boundaries of the array, that tampered the control structures).
+
+Can be seen as a sequential execution of the mprobe(3) for all the malloc(3)-ed blocks (that has not been free(3)-ed yet). Therefore, if an inconsistency is detected, the predefined abortfunction is launched (see man mcheck(3) for details of this function).
+.SH SEE ALSO
+mcheck(3), mprobe(3), malloc(3), realloc(3)
+.SH AUTHOR
+Lukas Zilka (lukas@zilka.me)

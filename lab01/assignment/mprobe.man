@@ -1,0 +1,32 @@
+.TH man 3 "21 February 2012" "GNU" "Linux man page"
+.SH NAME
+mprobe - if mcheck(3) is active, check whether the memory is in a good state
+.SH SYNOPSIS
+#include <mcheck.h>
+enum mcheck_status mprobe (void* ptr);
+.SH DESCRIPTION
+Reads the memory at ptr and looks at the header that mcheck(3) uses, and tests its consistency. mcheck(3) uses this header for checking for illegal writes past the bounds of a malloc(3)-ed memory block.
+
+If there has been 
+
+enum mcheck_status
+  {
+    MCHECK_DISABLED = -1,       /* Consistency checking is not turned on.  */  
+    MCHECK_OK,                  /* Block is fine.  */  
+    MCHECK_FREE,                /* Block freed twice.  */  
+    MCHECK_HEAD,                /* Memory before the block was clobbered.  */  
+    MCHECK_TAIL                 /* Memory after the block was clobbered.  */  
+  };  
+
+.SH RETURN VALUE
+MCHECK_OK - the memory is in a consistent state or mcheck(3) is NOT active
+
+MCHECK_FREE - the memory has already been freed
+
+MCHECK_HEAD, MCHECK_TAIL - the memory is the header/tail of the mcheck(3) control structure
+
+MAY not return - if the memory has been corrupted, the predefined abortfunction is launched; this function can call abort and therefore never return
+.SH SEE ALSO
+mcheck(3), malloc(3), realloc(3)
+.SH AUTHOR
+Lukas Zilka (lukas@zilka.me)
